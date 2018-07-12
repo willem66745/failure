@@ -28,7 +28,7 @@ fn fail_derive(s: synstructure::Structure) -> quote::Tokens {
     #[cfg(feature = "std")]
     let fail = s.bound_impl("::failure::Fail", quote! {
         #[allow(unreachable_code)]
-        fn cause(&self) -> ::std::option::Option<&::failure::Fail> {
+        fn cause(&self) -> ::std::option::Option<&dyn(::failure::Fail)> {
             match *self { #cause_body }
             None
         }
@@ -43,7 +43,7 @@ fn fail_derive(s: synstructure::Structure) -> quote::Tokens {
     #[cfg(not(feature = "std"))]
     let fail = s.bound_impl("::failure::Fail", quote! {
         #[allow(unreachable_code)]
-        fn cause(&self) -> ::core::option::Option<&::failure::Fail> {
+        fn cause(&self) -> ::core::option::Option<&dyn(::failure::Fail)> {
             match *self { #cause_body }
             None
         }
